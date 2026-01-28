@@ -14,6 +14,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Terms from "./pages/Terms";
 import Shipping from "./pages/Shipping";
 import Returns from "./pages/Returns";
+import Wishlist from "./pages/Wishlist";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -33,6 +34,7 @@ function AppContent() {
       <Route path="/terms" element={<Terms />} />
       <Route path="/shipping" element={<Shipping />} />
       <Route path="/returns" element={<Returns />} />
+      <Route path="/wishlist" element={<Wishlist />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
