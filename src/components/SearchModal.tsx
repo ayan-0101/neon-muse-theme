@@ -47,7 +47,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-2xl p-0 gap-0 overflow-hidden">
+  <DialogContent hideClose={!!query} className="sm:max-w-2xl p-0 gap-0 overflow-hidden">
         <div className="flex items-center gap-3 px-4 py-3 border-b border-border">
           <Search className="w-5 h-5 text-muted-foreground" />
           <Input
@@ -59,7 +59,10 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
           />
           {query && (
             <button
-              onClick={() => setQuery("")}
+              onClick={() => {
+                setQuery("");
+                onClose();
+              }}
               className="p-1 hover:bg-muted rounded-full transition-colors"
             >
               <X size={18} className="text-muted-foreground" />

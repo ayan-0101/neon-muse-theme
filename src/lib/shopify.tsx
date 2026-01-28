@@ -65,6 +65,19 @@ export interface ShopifyProduct {
   };
 }
 
+export interface ShopifyCollection {
+  node: {
+    id: string;
+    title: string;
+    handle: string;
+    description?: string | null;
+    image?: {
+      url: string;
+      altText?: string | null;
+    } | null;
+  };
+}
+
 // Storefront API Request Helper
 export async function storefrontApiRequest(query: string, variables: Record<string, unknown> = {}) {
   try {
@@ -237,6 +250,25 @@ export const PRODUCT_BY_HANDLE_QUERY = `
   }
 `;
 
+export const COLLECTIONS_QUERY = `
+  query GetCollections($first: Int!) {
+    collections(first: $first) {
+      edges {
+        node {
+          id
+          title
+          handle
+          description
+          image {
+            url
+            altText
+          }
+        }
+      }
+    }
+  }
+`;
+
 // Cart Mutations
 export const CART_CREATE_MUTATION = `
   mutation cartCreate($input: CartInput!) {
@@ -332,6 +364,12 @@ export const CART_QUERY = `
 export async function fetchProducts(first: number = 20, query?: string): Promise<ShopifyProduct[]> {
   const data = await storefrontApiRequest(PRODUCTS_QUERY, { first, query });
   return data?.data?.products?.edges || [];
+}
+
+// Fetch collections helper
+export async function fetchCollections(first: number = 20): Promise<ShopifyCollection[]> {
+  const data = await storefrontApiRequest(COLLECTIONS_QUERY, { first });
+  return data?.data?.collections?.edges || [];
 }
 
 // Fetch single product by handle
