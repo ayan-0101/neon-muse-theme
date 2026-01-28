@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { type ShopifyProduct } from "@/lib/shopify.tsx";
 import { useCartStore } from "@/stores/cartStore";
+import { useWishlistStore } from "@/stores/wishlistStore";
 import { toast } from "sonner";
 
 interface ShopifyProductCardProps {
@@ -12,8 +13,9 @@ interface ShopifyProductCardProps {
 
 const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const { addItem, isLoading } = useCartStore();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
+  const isWishlisted = isInWishlist(product.node.id);
 
   const { node } = product;
   const price = parseFloat(node.priceRange.minVariantPrice.amount);
@@ -78,7 +80,14 @@ const ShopifyProductCard = ({ product }: ShopifyProductCardProps) => {
         <button
           onClick={(e) => {
             e.preventDefault();
-            setIsWishlisted(!isWishlisted);
+            e.stopPropagation();
+            if (isWishlisted) {
+              removeFromWishlist(product.node.id);
+              toast.success("Removed from wishlist");
+            } else {
+              addToWishlist(product);
+              toast.success("Added to wishlist!");
+            }
           }}
           className={`absolute top-3 right-3 z-10 p-2 rounded-full transition-all ${
             isWishlisted

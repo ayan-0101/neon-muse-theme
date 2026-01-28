@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Heart, Menu, X, Search, User } from "lucide-react";
+import { Heart, Menu, X, Search } from "lucide-react";
 import { useState } from "react";
 import logoImage from "@/assets/logo.jpg";
 import CartDrawer from "./CartDrawer";
+import SearchModal from "./SearchModal";
+import ProfileDropdown from "./ProfileDropdown";
+import { useWishlistStore } from "@/stores/wishlistStore";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [wishlistCount] = useState(0);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const wishlistCount = useWishlistStore((state) => state.items.length);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -59,12 +63,15 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <button className="hidden lg:block p-2 text-muted-foreground hover:text-primary transition-colors">
+            <button 
+              onClick={() => setIsSearchOpen(true)}
+              className="hidden lg:block p-2 text-muted-foreground hover:text-primary transition-colors"
+            >
               <Search size={20} />
             </button>
-            <button className="hidden lg:block p-2 text-muted-foreground hover:text-primary transition-colors">
-              <User size={20} />
-            </button>
+            <div className="hidden lg:block">
+              <ProfileDropdown />
+            </div>
             <Link
               to="/wishlist"
               className="relative p-2 text-muted-foreground hover:text-primary transition-colors"
@@ -103,6 +110,8 @@ const Header = () => {
           </div>
         </motion.nav>
       </div>
+
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 };
