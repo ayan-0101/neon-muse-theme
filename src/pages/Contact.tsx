@@ -31,10 +31,9 @@ const Contact = () => {
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         {
-          from_name: formData.name,
-          from_email: formData.email,
           subject: formData.subject,
-          message: formData.message,
+          from_email: formData.email,
+          message: `The user ${formData.name} has query:\n\n${formData.message}\n\nConnect with them soon.`,
         },
         EMAILJS_PUBLIC_KEY
       );
