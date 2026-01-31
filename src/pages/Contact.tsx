@@ -7,7 +7,11 @@ import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
+import emailjs from "@emailjs/browser";
+
+const EMAILJS_SERVICE_ID = "service_u604rvn";
+const EMAILJS_TEMPLATE_ID = "template_hkmbf1l";
+const EMAILJS_PUBLIC_KEY = "yIjYbCC8V7Z0mbkLt";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -23,11 +27,17 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke("send-contact-email", {
-        body: formData,
-      });
-
-      if (error) throw error;
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        EMAILJS_PUBLIC_KEY
+      );
 
       toast.success("Message sent! We'll get back to you soon.");
       setFormData({ name: "", email: "", subject: "", message: "" });
