@@ -18,7 +18,7 @@ const PrivacyPolicy = () => {
             <h1 className="font-display text-4xl lg:text-5xl font-bold mb-4">
               Privacy <span className="text-gradient">Policy</span>
             </h1>
-            <p className="text-muted-foreground mb-8">Last updated: January 2024</p>
+            <p className="text-muted-foreground mb-8">Last updated: January 2026</p>
 
             <div className="prose prose-invert max-w-none space-y-8">
               <section>

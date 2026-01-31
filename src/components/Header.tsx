@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, Menu, X, Search } from "lucide-react";
 import { useState } from "react";
-import logoImage from "@/assets/logo.jpg";
+import logoImage from "@/assets/logo.png";
 import CartDrawer from "./CartDrawer";
 import SearchModal from "./SearchModal";
 import ProfileDropdown from "./ProfileDropdown";
@@ -43,7 +43,7 @@ const Header = () => {
               <img
                 src={logoImage}
                 alt="VALORIN"
-                className="h-8 lg:h-10 w-auto invert"
+                className="h-14 w-36 lg:h-16 lg:w-36 invert"
               />
             </motion.div>
           </Link>
